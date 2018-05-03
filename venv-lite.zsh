@@ -1,11 +1,12 @@
 # Andy's very mini virtualenvwrapper-ish zsh plugin
 
-# This is a simple, lightweight zsh plugin providing these three
+# This is a simple, lightweight zsh plugin providing these four
 # commands, with this syntax and no other options:
 #
 # mkvirtualenv <venv-name>
 # workon <venv-name>
 # rmvirtualenv <venv-name>
+# wipevenv
 #
 # mkvirtualenv creates venvs in ~/.virtualenv; when a venv is created,
 # it is automatically activated too.
@@ -28,6 +29,9 @@
 #
 # after which you can use this plugin's workon and rmvirtualenv on
 # that venv as usual.
+#
+# wipevenv wipes the currently active venv (if any - beware!), leaving
+# only pip, setuptools, etc. in place.
 #
 # That's it!
 
@@ -54,7 +58,11 @@ workon () {
 
 
 rmvirtualenv () {
-    rm -rvf $(_venv_path $1)
+    rm -rvf $(_venv_path $1) | wc -l
+}
+
+wipevenv() {
+    pip freeze | xargs pip uninstall -y
 }
 
 
