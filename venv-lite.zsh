@@ -62,7 +62,8 @@ rmvirtualenv () {
 }
 
 wipevenv() {
-    pip freeze | xargs pip uninstall -y
+    pip freeze --exclude-editable | xargs pip uninstall -y
+    pip list --editable --format freeze | xargs pip uninstall -y
 }
 
 
